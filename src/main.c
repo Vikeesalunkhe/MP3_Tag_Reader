@@ -1,38 +1,30 @@
 #include <stdio.h>
-#include "operation.h"
-#include <string.h>
+#include "../include/operation.h"
+#include "../include/view.h"
+#include "../include/edit.h"
+#include "../include/display.h"
 
-#include "view.h"
-#include "edit.h"
-
+// main function
 int main(int argc, char *argv[])
 {
-
     // Validate cmd line
     OperationType operation = read_and_validate_args(argc, argv);
-
 
     switch (operation)
     {
         case e_view:
-            printf("Viewing mp3 file: %s\n", argv[2]);
+            // argv[2] -> mp3 file
+            display_view_start(argv[2]);
             view_mp3(argv[2]);
             break;
 
         case e_edit:
-            printf("-----SELECTED EDIT OPERATION-----\n");
-            /*------------------------------------------------------
-             * Edit MP3 tag
-             *
-             * argv[2] -> Tag flag
-             * argv[3] -> New tag value
-             * argv[4] -> MP3 file
-             *-----------------------------------------------------*/            
+            // argv[2] -> tag flag, argv[3] -> new value, argv[4] -> mp3 file
+            display_edit_start();
             edit_tag(argv[4], argv[2], argv[3]);
-            /*------------------------------------------------------
-             * Display updated MP3 details
-             *-----------------------------------------------------*/
-            printf("\n--------UPDATED MP3 DETAILS--------\n");
+
+            // show updated details
+            display_updated_details();
             view_mp3(argv[4]);
             break;
 
@@ -49,9 +41,5 @@ int main(int argc, char *argv[])
             return 1;
     }
 
-
     return 0;
-
-
-
 }
